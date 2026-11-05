@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+drishti_data/
+bench_results/
+*.db
+*.db-wal
+*.db-shm
+.pytest_cache/

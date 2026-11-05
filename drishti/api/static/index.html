@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRISHTI Workspace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="/static/vendor/cytoscape.min.js"></script><!-- vendored (MIT): works air-gapped -->
+<style>
+:root{
+  --bg:#f4f2ee; --panel:#fbfaf7; --ink:#1d1f22; --muted:#6b6f76; --line:#dedad2; --accent:#1f5fbf; --accent-soft:#e3ecfa;
+  --ok:#1d7a4c; --warn:#a86400; --bad:#b3261e; --chip:#ecebe6; --hl:#ffe9a8;
+  --c0:#1f5fbf; --c1:#c2410c; --c2:#0f766e; --c3:#7c3aed; --c4:#b91c1c; --c5:#4d7c0f; --c6:#a16207; --c7:#0e7490;
+  --mono:"IBM Plex Mono",ui-monospace,monospace; --sans:"IBM Plex Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141619; --panel:#1b1e22; --ink:#e7e5e0; --muted:#9aa0a8; --line:#2c3036; --accent:#7aa7ff; --accent-soft:#1f2b40;
+  --ok:#5fcf98; --warn:#f0b35a; --bad:#ff8a80; --chip:#262a30; --hl:#5a4a12;
+  --c0:#7aa7ff; --c1:#fb923c; --c2:#2dd4bf; --c3:#a78bfa; --c4:#f87171; --c5:#a3e635; --c6:#facc15; --c7:#22d3ee;}}
+:root[data-theme="dark"]{
+  --bg:#141619; --panel:#1b1e22; --ink:#e7e5e0; --muted:#9aa0a8; --line:#2c3036; --accent:#7aa7ff; --accent-soft:#1f2b40;
+  --ok:#5fcf98; --warn:#f0b35a; --bad:#ff8a80; --chip:#262a30; --hl:#5a4a12;
+  --c0:#7aa7ff; --c1:#fb923c; --c2:#2dd4bf; --c3:#a78bfa; --c4:#f87171; --c5:#a3e635; --c6:#facc15; --c7:#22d3ee;}
+*{box-sizing:border-box} html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+header{display:flex;gap:10px;align-items:center;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+.brand{font-weight:600;letter-spacing:.14em;font-size:15px;margin-right:6px}
+.brand small{font-weight:400;letter-spacing:0;color:var(--muted);margin-left:8px;font-size:12px}
+input,select,button,textarea{font:inherit;color:inherit}
+input[type=text],input[type=password],input[type=date],select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+button{background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent)} button:hover{filter:brightness(1.05)}
+button.ok{color:var(--ok)} button.bad{color:var(--bad)}
+.spacer{flex:1}
+main{display:grid;grid-template-columns:360px 1fr 400px;min-height:0}
+aside,section{min-height:0;overflow:auto}
+aside.left{border-right:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column}
+aside.right{border-left:1px solid var(--line);background:var(--panel);padding:14px}
+.tabs{display:flex;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:2}
+.tabs button{flex:1;border:0;border-radius:0;background:transparent;padding:10px 4px;color:var(--muted);border-bottom:2px solid transparent}
+.tabs button.on{color:var(--ink);border-bottom-color:var(--accent)}
+.pane{padding:12px;display:none} .pane.on{display:block}
+.center{display:grid;grid-template-rows:auto 1fr;min-width:0}
+.toolbar{display:flex;gap:10px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap;font-size:13px}
+#cy{width:100%;height:100%;min-height:300px}
+.muted{color:var(--muted)} .mono{font-family:var(--mono);font-size:12px}
+.card{border:1px solid var(--line);border-radius:8px;padding:10px;margin:8px 0;background:var(--bg)}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:1px 8px;font-size:12px;margin:2px 3px 2px 0;cursor:pointer;font-family:var(--mono)}
+.chip.cite{background:var(--accent-soft);color:var(--accent)}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:4px;border:1px solid var(--line);color:var(--muted);margin-right:4px}
+.tag.asserted{color:var(--ok)} .tag.negated{color:var(--bad)} .tag.hedged,.tag.reported{color:var(--warn)} .tag.confirmed{color:var(--ok);border-color:var(--ok)} .tag.rejected{color:var(--bad)}
+.bar{height:6px;background:var(--chip);border-radius:4px;overflow:hidden;margin-top:4px} .bar i{display:block;height:100%;background:var(--accent)}
+.sent{margin:6px 0} .sent.caveat{color:var(--warn);font-size:13px} .sent.meta{color:var(--muted)}
+mark{background:var(--hl);color:inherit;padding:0 1px;border-radius:2px}
+h3{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:16px 0 6px}
+h2{font-size:17px;margin:2px 0 4px}
+.list-item{padding:7px 8px;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;gap:8px}
+.list-item:hover{background:var(--chip)}
+.examples .chip{font-family:var(--sans)}
+details summary{cursor:pointer;color:var(--muted);font-size:12px}
+pre{white-space:pre-wrap;word-break:break-word;font-family:var(--mono);font-size:11.5px;background:var(--bg);padding:8px;border-radius:6px;border:1px solid var(--line)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)} .legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;background:var(--d)}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:.95}
+@media (max-width: 1100px){ main{grid-template-columns:1fr;grid-template-rows:auto 60vh auto} body{overflow:auto} aside.left,aside.right{border:0} }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">DRISHTI<small>evidence-first intelligence</small></div>
+  <select id="case" title="Case" style="max-width:300px"></select>
+  <input id="newcase" type="text" placeholder="new case id" style="width:120px">
+  <button id="mkcase">Create</button>
+  <label class="chip" style="font-family:var(--sans)">Upload <input id="files" type="file" multiple hidden></label>
+  <select id="rel" title="Reliability of uploaded files">
+    <option value="user_upload">user upload</option><option value="official_record">official record</option>
+    <option value="corporate_disclosure">corporate disclosure</option><option value="journalism">journalism</option>
+    <option value="structured_record">structured record</option></select>
+  <button id="process" class="primary">Process case</button>
+  <span id="status" class="muted"></span>
+  <span class="spacer"></span>
+  <button id="report">Report</button>
+  <input id="key" type="password" placeholder="API key" style="width:120px">
+  <button id="theme" title="Toggle theme">◐</button>
+</header>
+<main>
+  <aside class="left">
+    <div class="tabs"><button data-t="ask" class="on">Ask</button><button data-t="ents">Entities</button><button data-t="review">Review</button><button data-t="leads">Leads</button><button data-t="audit">Audit</button></div>
+    <div class="pane on" id="p-ask">
+      <textarea id="q" rows="3" style="width:100%" placeholder="e.g. How is Public Works Department connected to …?"></textarea>
+      <div style="display:flex;gap:8px;margin-top:6px"><button id="askbtn" class="primary">Ask</button><span class="muted" style="font-size:12px;align-self:center">Answers cite claims; click a citation to see the source.</span></div>
+      <div class="examples" style="margin-top:8px">
+        <span class="chip">Which entities are most central?</span><span class="chip">Show suspicious money patterns</span>
+        <span class="chip">Are there any contradictions?</span><span class="chip">Which groups exist?</span><span class="chip">possible hidden links</span>
+      </div>
+      <div id="answers"></div>
+    </div>
+    <div class="pane" id="p-ents">
+      <div style="display:flex;gap:6px"><input id="eq" type="text" placeholder="search names / aliases" style="flex:1">
+      <select id="et"><option value="">all</option><option>PERSON</option><option>ORGANISATION</option><option>GOVT_BODY</option><option>PHONE</option><option>ACCOUNT</option><option>VEHICLE</option><option>CASE</option><option>CONTRACT</option><option>LOCATION</option></select></div>
+      <div id="elist"></div>
+    </div>
+    <div class="pane" id="p-review"><h3>Identity matches awaiting review</h3><div id="erq"></div></div>
+    <div class="pane" id="p-leads"><div id="leads" class="muted">Loading…</div></div>
+    <div class="pane" id="p-audit"><div id="audit"></div></div>
+  </aside>
+  <section class="center">
+    <div class="toolbar">
+      <label>As of <input id="asof" type="date"></label>
+      <label>Min belief <input id="minb" type="range" min="0" max="0.95" step="0.05" value="0"> <span id="minbv" class="mono">0.00</span></label>
+      <label><input id="weak" type="checkbox"> show co-occurrence</label>
+      <label>Colour <select id="colour"><option value="community">community</option><option value="type">type</option></select></label>
+      <button id="relayout">Re-layout</button>
+      <span class="muted" style="font-size:12px">Shift-click two nodes to find evidence paths</span>
+      <span class="spacer"></span><span id="gstat" class="muted mono"></span>
+    </div>
+    <div id="cy"></div>
+  </section>
+  <aside class="right" id="detail"><p class="muted">Select an entity, edge or citation to inspect its evidence.</p>
+    <div class="legend" id="legend"></div></aside>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+const $ = s => document.querySelector(s);
+const store = { get(k,d){ try{ return localStorage.getItem(k) ?? d }catch(e){ return d } }, set(k,v){ try{ localStorage.setItem(k,v) }catch(e){} } };
+let KEY = store.get("drishti_key","drishti-admin-dev-key"), CASE = store.get("drishti_case",""), cy=null, pathSel=[];
+$("#key").value = KEY;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const toast = m => { const t=$("#toast"); t.textContent=m; t.classList.add("on"); setTimeout(()=>t.classList.remove("on"),2600) };
+async function api(path, opts={}){
+  const r = await fetch(path, {...opts, headers:{"X-API-Key":KEY, ...(opts.body && !(opts.body instanceof FormData) ? {"Content-Type":"application/json"}:{}), ...(opts.headers||{})}});
+  if(!r.ok){ const t = await r.text(); toast(`${r.status}: ${t.slice(0,140)}`); throw new Error(t) }
+  return (r.headers.get("content-type")||"").includes("json") ? r.json() : r.text();
+}
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const PAL = () => [0,1,2,3,4,5,6,7].map(i=>css(`--c${i}`));
+const TYPES = ["PERSON","ORGANISATION","GOVT_BODY","PHONE","ACCOUNT","VEHICLE","CASE","CONTRACT"];
+const SHAPE = {PERSON:"ellipse",ORGANISATION:"round-rectangle",GOVT_BODY:"hexagon",PHONE:"diamond",ACCOUNT:"triangle",VEHICLE:"vee",CASE:"star",CONTRACT:"tag",LOCATION:"barrel"};
+
+// ---------------------------------------------------------------- cases
+async function loadCases(){
+  const cs = await api("/api/cases");
+  $("#case").innerHTML = cs.map(c=>`<option value="${esc(c.case_id)}">${esc(c.name)} · ${c.documents} docs · ${c.entities} entities</option>`).join("") || "<option value=''>no cases</option>";
+  if(cs.length){ CASE = cs.some(c=>c.case_id===CASE) ? CASE : cs[0].case_id; $("#case").value = CASE; refreshAll() }
+}
+$("#case").onchange = e => { CASE = e.target.value; store.set("drishti_case",CASE); refreshAll() };
+$("#key").onchange = e => { KEY = e.target.value; store.set("drishti_key",KEY); loadCases() };
+$("#mkcase").onclick = async () => { const id=$("#newcase").value.trim(); if(!id) return; await api("/api/cases",{method:"POST",body:JSON.stringify({case_id:id,name:id})}); CASE=id; store.set("drishti_case",id); loadCases() };
+$("#files").onchange = async e => {
+  if(!CASE) return toast("create a case first");
+  const fd = new FormData(); [...e.target.files].forEach(f=>fd.append("files",f)); fd.append("reliability",$("#rel").value);
+  const r = await api(`/api/cases/${CASE}/documents`,{method:"POST",body:fd});
+  toast(`${r.filter(x=>x.status!=="duplicate").length} new, ${r.filter(x=>x.status==="duplicate").length} duplicate`); e.target.value="";
+};
+$("#process").onclick = async () => { $("#status").textContent="processing…"; const m = await api(`/api/cases/${CASE}/process`,{method:"POST"});
+  $("#status").textContent = `${m.processed} docs · ${m.claims} claims · ${m.resolver.entities} entities · ${(m.ms_total/1000).toFixed(1)}s`; loadCases() };
+$("#report").onclick = async () => { const h = await api(`/api/cases/${CASE}/report`); const w = window.open(); if(w){ w.document.write(h); w.document.close() } };
+$("#theme").onclick = () => { const r=document.documentElement; r.dataset.theme = r.dataset.theme==="dark" ? "light" : "dark"; if(cy) styleGraph() };
+
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id==="p-"+b.dataset.t));
+  ({ents:loadEntities, review:loadReview, leads:loadLeads, audit:loadAudit})[b.dataset.t]?.();
+});
+function refreshAll(){ loadGraph(); loadEntities() }
+
+// ---------------------------------------------------------------- graph
+async function loadGraph(){
+  if(!CASE) return;
+  const p = new URLSearchParams({include_weak:$("#weak").checked, min_belief:$("#minb").value}); if($("#asof").value) p.set("as_of",$("#asof").value);
+  const g = await api(`/api/cases/${CASE}/graph?${p}`);
+  $("#gstat").textContent = `${g.nodes.length} nodes · ${g.edges.length} edges · Q=${(g.modularity??0).toFixed(3)}`;
+  const els = [...g.nodes.map(n=>({data:{...n, label:n.name, size: 14 + Math.sqrt(n.betweenness||0)*60}})),
+               ...g.edges.map(e=>({data:{...e, w: 0.6 + 3*e.belief}}))];
+  if(cy) cy.destroy();
+  cy = cytoscape({container:$("#cy"), elements:els, wheelSensitivity:0.25, layout:{name:"cose", animate:false, nodeRepulsion: 9000, idealEdgeLength: 70, randomize:true}});
+  styleGraph();
+  cy.on("tap","node", ev => { const n=ev.target;
+    if(ev.originalEvent.shiftKey){ pathSel.push(n.id()); n.addClass("sel"); if(pathSel.length===2){ showPaths(...pathSel); pathSel=[] } return }
+    cy.elements().removeClass("sel dim hl"); showEntity(n.id()) });
+  cy.on("tap","edge", ev => showEdge(ev.target.data()));
+}
+function styleGraph(){
+  const pal = PAL(), mode=$("#colour").value;
+  const color = n => mode==="type" ? pal[Math.max(0,TYPES.indexOf(n.data("type")))%8] : pal[(n.data("community")??0)%8];
+  cy.style([
+    {selector:"node", style:{"background-color":color, "shape":n=>SHAPE[n.data("type")]||"ellipse", width:"data(size)", height:"data(size)",
+      label:"data(label)", "font-size":10, color:css("--ink"), "text-valign":"bottom", "text-margin-y":3, "text-opacity":n=>n.data("degree")>0.02?1:0.0, "font-family":"IBM Plex Sans"}},
+    {selector:"edge", style:{width:"data(w)", "line-color":css("--line"), "curve-style":"bezier", "target-arrow-shape":"triangle", "target-arrow-color":css("--line"), "arrow-scale":0.6, opacity:0.9}},
+    {selector:"edge[?weak]", style:{"line-style":"dashed", opacity:0.5}},
+    {selector:"edge[contra > 0]", style:{"line-color":css("--bad"), "target-arrow-color":css("--bad")}},
+    {selector:".sel", style:{"border-width":3, "border-color":css("--accent")}},
+    {selector:".dim", style:{opacity:0.12}},
+    {selector:".hl", style:{"line-color":css("--accent"), "target-arrow-color":css("--accent"), width:4, opacity:1, "text-opacity":1}},
+  ]);
+  $("#legend").innerHTML = mode==="type" ? TYPES.map((t,i)=>`<span style="--d:${pal[i%8]}">${t.toLowerCase()}</span>`).join("") : "<span style='--d:var(--muted)'>colour = Louvain community · size = betweenness · width = belief · red = contradicted · dashed = co-occurrence</span>";
+}
+["#asof","#weak","#minb"].forEach(s=>$(s).addEventListener("change", loadGraph));
+$("#minb").oninput = e => $("#minbv").textContent = (+e.target.value).toFixed(2);
+$("#colour").onchange = () => cy && styleGraph();
+$("#relayout").onclick = () => cy && cy.layout({name:"cose",animate:false,randomize:true}).run();
+
+// ---------------------------------------------------------------- details
+const tag = (cls,t) => `<span class="tag ${esc(cls)}">${esc(t??cls)}</span>`;
+const bar = v => `<div class="bar"><i style="width:${Math.round(100*v)}%"></i></div>`;
+async function showEntity(id){
+  const e = await api(`/api/entities/${id}`);
+  const ids = Object.entries(e.identifiers||{}).map(([k,v])=>`<div class="mono">${esc(k)}: ${esc(v.join(", "))}</div>`).join("");
+  const rels = e.relations.filter(r=>r.predicate!=="MENTIONED_WITH").map(r=>`<div class="card"><div><b>${esc(r.subject_name)}</b> <span class="muted">${esc(r.predicate)}</span> <b>${esc(r.object_name)}</b></div>
+     <div class="muted" style="font-size:12px">belief ${r.belief.toFixed(2)} · ${r.independent_sources} independent / ${r.supporting_documents} docs${r.contra>0?` · <span style="color:var(--bad)">contradicted ${r.contra.toFixed(2)}</span>`:""}</div>${bar(r.belief)}
+     <div>${r.claims.map(c=>`<span class="chip cite" onclick="showClaim('${c.claim_id}')">${c.claim_id.slice(4,10)}</span>`).join("")}</div></div>`).join("");
+  const weak = e.relations.filter(r=>r.predicate==="MENTIONED_WITH").length;
+  const tl = (e.timeline||[]).slice(0,25).map(t=>`<div class="mono" style="margin:3px 0">${esc(t.date)} · ${esc(t.type)} ${t.claim_id?`<span class="chip cite" onclick="showClaim('${t.claim_id}')">src</span>`:""}</div>`).join("");
+  $("#detail").innerHTML = `<div class="muted mono">${esc(e.type)} · ${esc(e.entity_id)}</div><h2>${esc(e.canonical_name)}</h2>
+    <div class="muted" style="font-size:12px">${e.mentions.length} mentions · resolution: ${esc(e.attributes?.resolution)}${e.attributes?.pending_reviews?` · <span style="color:var(--warn)">${e.attributes.pending_reviews} pending identity reviews</span>`:""}</div>
+    <h3>Aliases</h3><div>${(e.aliases||[]).map(a=>`<span class="chip">${esc(a)}</span>`).join("")}</div>
+    ${ids?`<h3>Identifiers</h3>${ids}`:""}
+    <h3>Documented relationships</h3>${rels||"<p class='muted'>none</p>"}${weak?`<p class="muted" style="font-size:12px">${weak} weak co-occurrence links hidden (not relationships).</p>`:""}
+    <h3>Timeline</h3>${tl||"<p class='muted'>no dated events</p>"}
+    <p><button onclick="askAbout('${esc(e.canonical_name).replace(/'/g,"")}')">Ask about this entity</button></p>`;
+  if(cy){ cy.elements().addClass("dim"); const n=cy.getElementById(id); n.closedNeighborhood().removeClass("dim"); n.addClass("sel") }
+}
+function showEdge(d){
+  $("#detail").innerHTML = `<div class="muted mono">relationship</div><h2>${esc(cy.getElementById(d.source).data("name"))} → ${esc(cy.getElementById(d.target).data("name"))}</h2>
+   <div>${tag(d.predicate)} belief ${d.belief.toFixed(2)} · ${d.independent_sources} independent / ${d.supporting_documents} docs · ${d.count} claims</div>${bar(d.belief)}
+   <div class="muted" style="font-size:12px;margin-top:6px">valid ${esc(d.valid_from||"?")} → ${esc(d.valid_to||"present/unknown")} · modalities ${esc((d.modalities||[]).join(", "))}</div>
+   <p><button onclick="showEntity('${d.source}')">Subject</button> <button onclick="showEntity('${d.target}')">Object</button></p>`;
+  api(`/api/entities/${d.source}`).then(e=>{ const r=e.relations.find(x=>x.subject===d.source&&x.object===d.target&&x.predicate===d.predicate); if(r) $("#detail").insertAdjacentHTML("beforeend",
+     `<h3>Origin groups (source independence)</h3>${r.origin_groups.map(g=>`<div class="card" style="font-size:12px">${esc(g.reason)} · ${g.documents.length} doc(s) · ${esc(g.reliability.join(", "))}</div>`).join("")}
+      <h3>Claims</h3>${r.claims.map(c=>`<div class="card"><div>${tag(c.modality)}${tag(c.status)}<span class="muted mono">${esc(c.document_title)} p.${c.page}</span></div><div style="margin-top:4px">“${esc(c.evidence_text)}”</div><span class="chip cite" onclick="showClaim('${c.claim_id}')">inspect</span></div>`).join("")}`) });
+}
+async function showClaim(id){
+  const c = await api(`/api/claims/${id}`);
+  $("#detail").innerHTML = `<div class="muted mono">claim · ${esc(c.claim_id)}</div><h2>${esc(c.subject_text)} <span class="muted">${esc(c.predicate)}</span> ${esc(c.object_text)}</h2>
+    <div>${tag(c.modality)}${tag(c.epistemic)}${tag(c.status)} <span class="mono">p=${(+c.confidence).toFixed(2)}</span> <span class="muted mono">raw ${(+c.raw_score).toFixed(2)} · ${esc(c.extractor)}</span></div>
+    <h3>Source passage</h3><div class="card">${esc(c.context_before.slice(-240))}<mark>${esc(c.evidence_text)}</mark>${esc(c.context_after.slice(0,240))}</div>
+    <div class="muted" style="font-size:12px">${c.span_verified?"✓ span verified against the immutable source text":"✗ span mismatch"} · chars ${c.char_start}–${c.char_end} · page ${c.page}</div>
+    <h3>Document</h3><div class="mono">${esc(c.document.title)}<br>${esc(c.document.reliability)} · published ${esc(c.document.publication_date||"?")} · v${c.document.version}<br>sha256 ${esc(c.document.file_hash.slice(0,24))}…</div>
+    <h3>Times</h3><div class="mono">valid ${esc(c.valid_from||"?")} → ${esc(c.valid_to||"?")}<br>reported ${esc(c.reported_at||"?")} · ingested ${esc(c.ingested_at)}</div>
+    <h3>Analyst review</h3><input id="reason" type="text" placeholder="reason (recorded in audit log)" style="width:100%">
+    <p><button class="ok" onclick="review('${id}','confirmed')">Confirm</button> <button class="bad" onclick="review('${id}','rejected')">Reject</button> <button onclick="review('${id}','disputed')">Dispute</button></p>
+    ${c.history.length?`<h3>History</h3>${c.history.map(h=>`<div class="mono">${esc(h.at)} ${esc(h.actor)}: ${esc(h.field)} ${esc(h.old)} → ${esc(h.new)} ${esc(h.reason)}</div>`).join("")}`:""}`;
+}
+async function review(id,d){ await api(`/api/claims/${id}/review`,{method:"POST",body:JSON.stringify({decision:d,reason:$("#reason").value})}); toast(`claim ${d}`); showClaim(id); loadGraph() }
+async function showPaths(a,b){
+  const ps = await api(`/api/cases/${CASE}/paths?a=${a}&b=${b}&k=5&max_hops=4`);
+  cy.elements().removeClass("hl sel").addClass("dim");
+  if(!ps.length){ $("#detail").innerHTML = `<h2>No documented path</h2><p class="muted">No path of ≤4 evidence hops. Absence of a path is not evidence of absence.</p>`; cy.elements().removeClass("dim"); return }
+  const p0 = ps[0];
+  p0.nodes.forEach((n,i)=>{ cy.getElementById(n).removeClass("dim").addClass("hl"); if(i) cy.edges().filter(e=>(e.data("source")===n&&e.data("target")===p0.nodes[i-1])||(e.data("target")===n&&e.data("source")===p0.nodes[i-1])).removeClass("dim").addClass("hl") });
+  $("#detail").innerHTML = `<div class="muted mono">evidence paths</div><h2>${esc(cy.getElementById(a).data("name"))} ⇢ ${esc(cy.getElementById(b).data("name"))}</h2>` + ps.map((p,i)=>`<div class="card">
+     <div><b>Path ${i+1}</b> ${tag(p.kind)} ${p.hops} hops · belief ${p.path_belief.toFixed(2)} · min independent ${p.min_independent_sources}${p.contains_weak_edge?" · contains weak edge":""}</div>${bar(p.path_belief)}
+     ${p.edges.map(h=>`<div style="margin-top:6px;font-size:13px">${esc(h.from_name)} <span class="muted">${h.direction==="forward"?"—":"←"} ${esc(h.predicate)} ${h.direction==="forward"?"→":"—"}</span> ${esc(h.to_name)} <span class="mono muted">${h.belief.toFixed(2)}</span><br>${h.evidence.slice(0,1).map(ev=>`<span class="muted" style="font-size:12px">“${esc(ev.evidence_text.slice(0,160))}”</span> <span class="chip cite" onclick="showClaim('${ev.claim_id}')">src</span>`).join("")}</div>`).join("")}
+     ${p.kind==="indirect"?`<div class="sent caveat">Indirect chain — not evidence of a direct relationship.</div>`:""}</div>`).join("");
+}
+
+// ---------------------------------------------------------------- ask
+function askAbout(name){ $("#q").value = `Tell me about ${name}`; document.querySelector('.tabs button[data-t=ask]').click(); ask() }
+document.querySelectorAll(".examples .chip").forEach(c=>c.onclick=()=>{ $("#q").value=c.textContent; ask() });
+$("#askbtn").onclick = ask; $("#q").addEventListener("keydown", e=>{ if(e.key==="Enter" && (e.metaKey||e.ctrlKey)) ask() });
+async function ask(){
+  const q = $("#q").value.trim(); if(!q || !CASE) return;
+  const r = await api(`/api/cases/${CASE}/ask`,{method:"POST",body:JSON.stringify({question:q})});
+  const html = r.sentences.map(s=>`<div class="sent ${s.kind}">${esc(s.text)} ${s.citations.slice(0,4).map(c=>`<span class="chip cite" onclick="showClaim('${c}')">${c.slice(4,10)}</span>`).join("")}</div>`).join("");
+  $("#answers").insertAdjacentHTML("afterbegin", `<div class="card"><div style="font-weight:500">${esc(q)}</div>
+    <div class="muted" style="font-size:12px">${tag(r.iqr.intent)} ${r.verification.all_findings_cited?"✓ every finding cited":"⚠"} · ${r.verification.dropped_unsupported} dropped · ${r.ms} ms</div>${html}
+    <details><summary>structured query (IQR)</summary><pre>${esc(JSON.stringify(r.iqr,null,1))}</pre></details></div>`);
+  if(cy && r.iqr.entity_ids.length){ cy.elements().addClass("dim"); r.iqr.entity_ids.forEach(id=>cy.getElementById(id).closedNeighborhood().removeClass("dim")) }
+}
+
+// ---------------------------------------------------------------- lists
+async function loadEntities(){
+  if(!CASE) return;
+  const p = new URLSearchParams(); if($("#eq").value) p.set("q",$("#eq").value); if($("#et").value) p.set("type",$("#et").value);
+  const es = await api(`/api/cases/${CASE}/entities?${p}`);
+  $("#elist").innerHTML = es.slice(0,300).map(e=>`<div class="list-item" onclick="showEntity('${e.entity_id}')"><span>${esc(e.canonical_name)}</span><span class="muted mono">${esc(e.type.slice(0,4).toLowerCase())}</span></div>`).join("") || "<p class='muted'>no entities</p>";
+}
+$("#eq").oninput = () => loadEntities(); $("#et").onchange = loadEntities;
+async function loadReview(){
+  const q = await api(`/api/cases/${CASE}/review-queue`);
+  $("#erq").innerHTML = q.slice(0,60).map(d=>`<div class="card"><div><b>${esc(d.left.text)}</b> <span class="muted">vs</span> <b>${esc(d.right.text)}</b></div>
+   <div class="muted mono" style="font-size:11px">${esc(d.left.title)} · ${esc(d.right.title)} · score ${d.score.toFixed(2)} ${esc(d.reason||"")}</div>
+   <details><summary>features</summary><pre>${esc(JSON.stringify(d.features))}</pre></details>
+   <button class="ok" onclick="resolvePair('${d.left.mention_id}','${d.right.mention_id}',true)">Same entity</button> <button class="bad" onclick="resolvePair('${d.left.mention_id}','${d.right.mention_id}',false)">Different</button></div>`).join("") || "<p class='muted'>queue empty</p>";
+}
+async function resolvePair(l,r,link){ await api(`/api/cases/${CASE}/resolve`,{method:"POST",body:JSON.stringify({left:l,right:r,link,reason:"analyst decision via workspace"})}); toast(link?"linked — resolution re-run":"kept separate"); loadReview(); loadGraph() }
+async function loadLeads(){
+  const [P, C, A] = await Promise.all([api(`/api/cases/${CASE}/patterns`), api(`/api/cases/${CASE}/contradictions`), api(`/api/cases/${CASE}/analytics`)]);
+  const sec = (t, items, f) => `<h3>${t} (${items.length})</h3>` + (items.slice(0,8).map(f).join("") || "<p class='muted'>none</p>");
+  const cites = cl => (cl||[]).slice(0,4).map(c=>`<span class="chip cite" onclick="showClaim('${c}')">${c.slice(4,10)}</span>`).join("");
+  $("#leads").innerHTML = `<p class="sent caveat">Leads are computed patterns for analyst review — not findings of wrongdoing.</p>`
+   + sec("Contradictions", C, c=>`<div class="card">${tag(c.type)} ${esc(c.explanation)}<div>${cites(c.claims.filter(Boolean))}</div></div>`)
+   + Object.entries(P).map(([k,v])=>sec(k.replace(/_/g," "), v, x=>`<div class="card">${esc(x.description)}<div>${cites(x.claims)}</div></div>`)).join("")
+   + sec("Link hypotheses (inferred)", A.hypotheses, h=>`<div class="card">${esc(h.source_name)} ↔ ${esc(h.target_name)} <span class="mono">${h.score.toFixed(2)}</span><div class="muted" style="font-size:12px">via ${esc(h.shared_names.slice(0,4).join(", "))}</div></div>`)
+   + `<h3>Brokers (betweenness)</h3>` + A.top_brokers.slice(0,10).map(b=>`<div class="list-item" onclick="showEntity('${b.entity_id}')"><span>${esc(b.name)}</span><span class="mono">${b.betweenness.toFixed(3)}</span></div>`).join("")
+   + `<h3>Resilience</h3><div class="mono" style="font-size:12px">${A.resilience_targeted.map((r,i)=>`remove ${r.removed}: LCC ${r.lcc_fraction} (random ${A.resilience_random[i]?.lcc_fraction ?? "-"})`).join("<br>")}</div>`
+   + (A.link_prediction_eval?.auc_combined ? `<p class="muted" style="font-size:12px">Link-prediction hold-out AUC ${A.link_prediction_eval.auc_combined}</p>` : "");
+}
+async function loadAudit(){
+  const a = await api(`/api/cases/${CASE}/audit`);
+  $("#audit").innerHTML = `<div class="card">${a.chain.valid?"✓ hash chain valid":"✗ chain broken at seq "+a.chain.first_bad_seq} · ${a.chain.entries} entries<div class="mono" style="font-size:11px">head ${esc((a.chain.head||"").slice(0,32))}…</div></div>`
+   + a.entries.map(e=>`<div class="mono" style="font-size:11.5px;margin:4px 0">${esc(e.at)} <b>${esc(e.actor)}</b> ${esc(e.action)} ${esc(e.object_id)}</div>`).join("");
+}
+loadCases().catch(()=>toast("Enter a valid API key (dev default: drishti-admin-dev-key)"));
+</script>
+</body>
+</html>

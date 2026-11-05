@@ -1,0 +1,76 @@
+{
+ "relation": {
+  "relation_lr.pkl": {
+   "examples": 782,
+   "label_counts": {
+    "LOCATED_IN>": 97,
+    "DIRECTOR_OF>": 274,
+    "AWARDED_CONTRACT_TO>": 32,
+    "AWARDED_CONTRACT_TO<": 20,
+    "SUBSIDIARY_OF>": 15,
+    "SHAREHOLDER_OF>": 18,
+    "NONE": 117,
+    "ACQUIRED>": 3,
+    "FILED_CASE_AGAINST>": 6,
+    "ACCUSED_IN>": 42,
+    "USES_PHONE>": 45,
+    "ASSOCIATE_OF>": 75,
+    "OWNS_VEHICLE>": 17,
+    "HOLDS_ACCOUNT>": 21
+   },
+   "features": 735,
+   "train_accuracy": 1.0
+  },
+  "relation_hybrid.pkl": {
+   "examples": 782,
+   "label_counts": {
+    "LOCATED_IN>": 97,
+    "DIRECTOR_OF>": 274,
+    "AWARDED_CONTRACT_TO>": 32,
+    "AWARDED_CONTRACT_TO<": 20,
+    "SUBSIDIARY_OF>": 15,
+    "SHAREHOLDER_OF>": 18,
+    "NONE": 117,
+    "ACQUIRED>": 3,
+    "FILED_CASE_AGAINST>": 6,
+    "ACCUSED_IN>": 42,
+    "USES_PHONE>": 45,
+    "ASSOCIATE_OF>": 75,
+    "OWNS_VEHICLE>": 17,
+    "HOLDS_ACCOUNT>": 21
+   },
+   "features": 748,
+   "train_accuracy": 1.0
+  }
+ },
+ "er": {
+  "pairs": 2853,
+  "positives": 1309,
+  "train_accuracy": 0.9593,
+  "coefficients": {
+   "jw": 1.841,
+   "soft_tok": 8.783,
+   "tok_jacc": -0.458,
+   "tfidf": 7.018,
+   "phon_eq": 1.846,
+   "initials_ok": 2.922,
+   "suffix_eq": 0.573,
+   "suffix_conflict": 0.851,
+   "strong_id_match": 1.196,
+   "soft_id_match": 0.214,
+   "ctx_jacc": 3.351,
+   "loc_overlap": -0.547,
+   "same_doc": 1.036,
+   "len_ratio": -4.179,
+   "first_tok_eq": -0.528,
+   "last_tok_eq": -1.986
+  }
+ },
+ "calibration": {
+  "hybrid": {
+   "n": 222,
+   "ece_raw": 0.0816,
+   "ece_calibrated": 0.0097
+  }
+ }
+}

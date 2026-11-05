@@ -1,0 +1,824 @@
+{
+ "corpus": {
+  "documents": 35,
+  "gold_mentions": 507,
+  "gold_relations_in_text": 209,
+  "gold_entities": 168
+ },
+ "ner": {
+  "drishti": {
+   "strict": {
+    "precision": 0.9602,
+    "recall": 0.9527,
+    "f1": 0.9564,
+    "tp": 483,
+    "fp": 20,
+    "fn": 24
+   },
+   "relaxed": {
+    "precision": 0.996,
+    "recall": 0.9882,
+    "f1": 0.9921,
+    "tp": 501,
+    "fp": 2,
+    "fn": 6
+   },
+   "per_label_relaxed": {
+    "ACCOUNT": {
+     "precision": 1.0,
+     "recall": 0.875,
+     "f1": 0.9333,
+     "tp": 7,
+     "fp": 0,
+     "fn": 1
+    },
+    "CASE": {
+     "precision": 0.9091,
+     "recall": 1.0,
+     "f1": 0.9524,
+     "tp": 20,
+     "fp": 2,
+     "fn": 0
+    },
+    "GOVT_BODY": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 36,
+     "fp": 0,
+     "fn": 0
+    },
+    "LOCATION": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 31,
+     "fp": 0,
+     "fn": 0
+    },
+    "ORGANISATION": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 195,
+     "fp": 0,
+     "fn": 0
+    },
+    "PERSON": {
+     "precision": 1.0,
+     "recall": 0.9742,
+     "f1": 0.9869,
+     "tp": 189,
+     "fp": 0,
+     "fn": 5
+    },
+    "PHONE": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 16,
+     "fp": 0,
+     "fn": 0
+    },
+    "VEHICLE": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 7,
+     "fp": 0,
+     "fn": 0
+    }
+   }
+  },
+  "regex_baseline": {
+   "strict": {
+    "precision": 0.6538,
+    "recall": 0.5996,
+    "f1": 0.6255,
+    "tp": 304,
+    "fp": 161,
+    "fn": 203
+   },
+   "relaxed": {
+    "precision": 0.8258,
+    "recall": 0.7574,
+    "f1": 0.7901,
+    "tp": 384,
+    "fp": 81,
+    "fn": 123
+   },
+   "per_label_relaxed": {
+    "ACCOUNT": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 8,
+     "fp": 0,
+     "fn": 0
+    },
+    "CASE": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "tp": 0,
+     "fp": 0,
+     "fn": 20
+    },
+    "GOVT_BODY": {
+     "precision": 1.0,
+     "recall": 0.6667,
+     "f1": 0.8,
+     "tp": 24,
+     "fp": 0,
+     "fn": 12
+    },
+    "LOCATION": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "tp": 0,
+     "fp": 0,
+     "fn": 31
+    },
+    "ORGANISATION": {
+     "precision": 1.0,
+     "recall": 0.9436,
+     "f1": 0.971,
+     "tp": 184,
+     "fp": 0,
+     "fn": 11
+    },
+    "PERSON": {
+     "precision": 0.6553,
+     "recall": 0.7938,
+     "f1": 0.7179,
+     "tp": 154,
+     "fp": 81,
+     "fn": 40
+    },
+    "PHONE": {
+     "precision": 1.0,
+     "recall": 0.875,
+     "f1": 0.9333,
+     "tp": 14,
+     "fp": 0,
+     "fn": 2
+    },
+    "VEHICLE": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "tp": 0,
+     "fp": 0,
+     "fn": 7
+    }
+   }
+  }
+ },
+ "untyped_edges": {
+  "cooccurrence_baseline": {
+   "precision": 0.1195,
+   "recall": 0.9844,
+   "f1": 0.2131,
+   "tp": 189,
+   "fp": 1393,
+   "fn": 3
+  },
+  "drishti_typed_claims": {
+   "precision": 1.0,
+   "recall": 0.9427,
+   "f1": 0.9705,
+   "tp": 181,
+   "fp": 0,
+   "fn": 11
+  }
+ },
+ "relation_extraction": [
+  {
+   "system": "rules",
+   "overall": {
+    "precision": 1.0,
+    "recall": 0.9427,
+    "f1": 0.9705,
+    "tp": 181,
+    "fp": 0,
+    "fn": 11
+   },
+   "per_predicate": {
+    "ACCUSED_IN": {
+     "precision": 1.0,
+     "recall": 0.4667,
+     "f1": 0.6364,
+     "tp": 7,
+     "fp": 0,
+     "fn": 8
+    },
+    "ACQUIRED": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 1,
+     "fp": 0,
+     "fn": 0
+    },
+    "ASSOCIATE_OF": {
+     "precision": 1.0,
+     "recall": 0.875,
+     "f1": 0.9333,
+     "tp": 14,
+     "fp": 0,
+     "fn": 2
+    },
+    "AWARDED_CONTRACT_TO": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 17,
+     "fp": 0,
+     "fn": 0
+    },
+    "DIRECTOR_OF": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 68,
+     "fp": 0,
+     "fn": 0
+    },
+    "FILED_CASE_AGAINST": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 2,
+     "fp": 0,
+     "fn": 0
+    },
+    "HOLDS_ACCOUNT": {
+     "precision": 1.0,
+     "recall": 0.875,
+     "f1": 0.9333,
+     "tp": 7,
+     "fp": 0,
+     "fn": 1
+    },
+    "LOCATED_IN": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 31,
+     "fp": 0,
+     "fn": 0
+    },
+    "OWNS_VEHICLE": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 7,
+     "fp": 0,
+     "fn": 0
+    },
+    "SHAREHOLDER_OF": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 6,
+     "fp": 0,
+     "fn": 0
+    },
+    "SUBSIDIARY_OF": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 5,
+     "fp": 0,
+     "fn": 0
+    },
+    "USES_PHONE": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 16,
+     "fp": 0,
+     "fn": 0
+    }
+   },
+   "modality_accuracy": 1.0,
+   "non_asserted_modality_accuracy": 1.0,
+   "matched_by_gold_modality": {
+    "asserted": 174,
+    "reported": 3,
+    "negated": 2,
+    "hedged": 2
+   }
+  },
+  {
+   "system": "learned",
+   "overall": {
+    "precision": 0.9338,
+    "recall": 0.7344,
+    "f1": 0.8222,
+    "tp": 141,
+    "fp": 10,
+    "fn": 51
+   },
+   "per_predicate": {
+    "ACCUSED_IN": {
+     "precision": 1.0,
+     "recall": 0.4667,
+     "f1": 0.6364,
+     "tp": 7,
+     "fp": 0,
+     "fn": 8
+    },
+    "ACQUIRED": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 1,
+     "fp": 0,
+     "fn": 0
+    },
+    "ASSOCIATE_OF": {
+     "precision": 1.0,
+     "recall": 0.375,
+     "f1": 0.5455,
+     "tp": 6,
+     "fp": 0,
+     "fn": 10
+    },
+    "AWARDED_CONTRACT_TO": {
+     "precision": 1.0,
+     "recall": 0.7059,
+     "f1": 0.8276,
+     "tp": 12,
+     "fp": 0,
+     "fn": 5
+    },
+    "DIRECTOR_OF": {
+     "precision": 0.9608,
+     "recall": 0.7206,
+     "f1": 0.8235,
+     "tp": 49,
+     "fp": 2,
+     "fn": 19
+    },
+    "FILED_CASE_AGAINST": {
+     "precision": 1.0,
+     "recall": 0.5,
+     "f1": 0.6667,
+     "tp": 1,
+     "fp": 0,
+     "fn": 1
+    },
+    "HOLDS_ACCOUNT": {
+     "precision": 1.0,
+     "recall": 0.875,
+     "f1": 0.9333,
+     "tp": 7,
+     "fp": 0,
+     "fn": 1
+    },
+    "LOCATED_IN": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 31,
+     "fp": 0,
+     "fn": 0
+    },
+    "OWNS_VEHICLE": {
+     "precision": 1.0,
+     "recall": 0.5714,
+     "f1": 0.7273,
+     "tp": 4,
+     "fp": 0,
+     "fn": 3
+    },
+    "SHAREHOLDER_OF": {
+     "precision": 0.3333,
+     "recall": 0.6667,
+     "f1": 0.4444,
+     "tp": 4,
+     "fp": 8,
+     "fn": 2
+    },
+    "SUBSIDIARY_OF": {
+     "precision": 1.0,
+     "recall": 0.6,
+     "f1": 0.75,
+     "tp": 3,
+     "fp": 0,
+     "fn": 2
+    },
+    "USES_PHONE": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 16,
+     "fp": 0,
+     "fn": 0
+    }
+   },
+   "modality_accuracy": 1.0,
+   "non_asserted_modality_accuracy": 1.0,
+   "matched_by_gold_modality": {
+    "asserted": 134,
+    "reported": 3,
+    "negated": 2,
+    "hedged": 2
+   }
+  },
+  {
+   "system": "hybrid",
+   "overall": {
+    "precision": 0.9891,
+    "recall": 0.9427,
+    "f1": 0.9653,
+    "tp": 181,
+    "fp": 2,
+    "fn": 11
+   },
+   "per_predicate": {
+    "ACCUSED_IN": {
+     "precision": 1.0,
+     "recall": 0.4667,
+     "f1": 0.6364,
+     "tp": 7,
+     "fp": 0,
+     "fn": 8
+    },
+    "ACQUIRED": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 1,
+     "fp": 0,
+     "fn": 0
+    },
+    "ASSOCIATE_OF": {
+     "precision": 1.0,
+     "recall": 0.875,
+     "f1": 0.9333,
+     "tp": 14,
+     "fp": 0,
+     "fn": 2
+    },
+    "AWARDED_CONTRACT_TO": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 17,
+     "fp": 0,
+     "fn": 0
+    },
+    "DIRECTOR_OF": {
+     "precision": 0.9714,
+     "recall": 1.0,
+     "f1": 0.9855,
+     "tp": 68,
+     "fp": 2,
+     "fn": 0
+    },
+    "FILED_CASE_AGAINST": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 2,
+     "fp": 0,
+     "fn": 0
+    },
+    "HOLDS_ACCOUNT": {
+     "precision": 1.0,
+     "recall": 0.875,
+     "f1": 0.9333,
+     "tp": 7,
+     "fp": 0,
+     "fn": 1
+    },
+    "LOCATED_IN": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 31,
+     "fp": 0,
+     "fn": 0
+    },
+    "OWNS_VEHICLE": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 7,
+     "fp": 0,
+     "fn": 0
+    },
+    "SHAREHOLDER_OF": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 6,
+     "fp": 0,
+     "fn": 0
+    },
+    "SUBSIDIARY_OF": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 5,
+     "fp": 0,
+     "fn": 0
+    },
+    "USES_PHONE": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "tp": 16,
+     "fp": 0,
+     "fn": 0
+    }
+   },
+   "modality_accuracy": 1.0,
+   "non_asserted_modality_accuracy": 1.0,
+   "matched_by_gold_modality": {
+    "asserted": 174,
+    "reported": 3,
+    "negated": 2,
+    "hedged": 2
+   }
+  }
+ ],
+ "entity_resolution": {
+  "mentions_evaluated": 430,
+  "exact_string": {
+   "precision": 1.0,
+   "recall": 0.851,
+   "f1": 0.9195,
+   "tp": 1171,
+   "fp": 0,
+   "fn": 205,
+   "bcubed_precision": 1.0,
+   "bcubed_recall": 0.8656,
+   "bcubed_f1": 0.928,
+   "false_merge_rate": 0.0,
+   "fragmented_gold_rate": 0.3125,
+   "predicted_clusters": 110,
+   "gold_clusters": 80,
+   "items": 430
+  },
+  "naive_fuzzy_transitive": {
+   "precision": 0.7997,
+   "recall": 0.9259,
+   "f1": 0.8582,
+   "tp": 1274,
+   "fp": 319,
+   "fn": 102,
+   "bcubed_precision": 0.9135,
+   "bcubed_recall": 0.93,
+   "bcubed_f1": 0.9217,
+   "false_merge_rate": 0.1014,
+   "fragmented_gold_rate": 0.1875,
+   "predicted_clusters": 86,
+   "gold_clusters": 80,
+   "items": 430,
+   "ms": 12.1,
+   "comparisons": 92235
+  },
+  "drishti": {
+   "precision": 0.9985,
+   "recall": 0.9942,
+   "f1": 0.9964,
+   "tp": 1368,
+   "fp": 2,
+   "fn": 8,
+   "bcubed_precision": 0.9969,
+   "bcubed_recall": 0.9916,
+   "bcubed_f1": 0.9943,
+   "false_merge_rate": 0.0137,
+   "fragmented_gold_rate": 0.025,
+   "predicted_clusters": 81,
+   "gold_clusters": 80,
+   "items": 430
+  },
+  "review_queue": {
+   "pairs": 8,
+   "evaluable": 8,
+   "true_match_fraction": 0.5
+  },
+  "blocking": {
+   "profiles": 239,
+   "candidate_pairs": 887,
+   "naive_pairs": 28441,
+   "stop_blocks": 0,
+   "reduction_ratio": 0.9688,
+   "entities": 175,
+   "review_pairs": 8,
+   "blocked_pairs": 45,
+   "auto_links": 158
+  },
+  "drishti_weighted_no_model": {
+   "precision": 0.9941,
+   "recall": 0.9869,
+   "f1": 0.9905,
+   "tp": 1358,
+   "fp": 8,
+   "fn": 18,
+   "bcubed_precision": 0.9913,
+   "bcubed_recall": 0.9862,
+   "bcubed_f1": 0.9888,
+   "false_merge_rate": 0.0278,
+   "fragmented_gold_rate": 0.0375,
+   "predicted_clusters": 81,
+   "gold_clusters": 80,
+   "items": 430
+  }
+ },
+ "retrieval": {
+  "queries_dev": 52,
+  "queries_test": 51,
+  "passages": 172,
+  "tuned_weights": {
+   "alpha": 0,
+   "beta": 0.7,
+   "gamma": 0.3,
+   "dev_ndcg": 0.8453
+  },
+  "bm25": {
+   "recall@5": 0.88,
+   "ndcg@10": 0.8366,
+   "mrr": 0.7975
+  },
+  "semantic_lsa": {
+   "recall@5": 0.9045,
+   "ndcg@10": 0.8432,
+   "mrr": 0.8018
+  },
+  "hybrid_no_expansion": {
+   "recall@5": 0.9045,
+   "ndcg@10": 0.8432,
+   "mrr": 0.8018
+  },
+  "hybrid_rrf": {
+   "recall@5": 0.9192,
+   "ndcg@10": 0.8488,
+   "mrr": 0.808
+  },
+  "hybrid_tuned_entity_expansion": {
+   "recall@5": 0.9241,
+   "ndcg@10": 0.8431,
+   "mrr": 0.799
+  }
+ },
+ "graph": {
+  "nodes": 166,
+  "edges": 318,
+  "communities": {
+   "members_evaluated": 18,
+   "modularity": 0.6496,
+   "louvain_ARI": 0.5259,
+   "louvain_NMI": 0.7035,
+   "connected_components_ARI": 0.0,
+   "prototype_no_clustering_ARI": 0.0
+  },
+  "link_prediction": {
+   "auc_combined": 0.791,
+   "n_test_pos": 58,
+   "n_test_neg": 58,
+   "auc_aa": 0.684,
+   "auc_ra": 0.684,
+   "auc_jac": 0.6818,
+   "auc_pa_log": 0.7768,
+   "auc_wcn": 0.683,
+   "auc_cn": 0.6827
+  },
+  "path_queries": {
+   "drishti_evidence_graph": {
+    "connected_pairs_found": 0.5667,
+    "hop_precision": 1.0,
+    "false_connection_rate": 0.0167
+   },
+   "cooccurrence_graph": {
+    "connected_pairs_found": 0.55,
+    "hop_precision": 0.1311,
+    "false_connection_rate": 0.6167
+   },
+   "positive_pairs": 60,
+   "negative_pairs": 60
+  },
+  "resilience_5_removals": {
+   "targeted_lcc": 0.5575,
+   "random_lcc": 0.6106,
+   "targeted_efficiency": 0.7936,
+   "random_efficiency": 0.9858
+  }
+ },
+ "patterns": {
+  "planted_detected": {
+   "money_cycle": true,
+   "structuring": true,
+   "pass_through": true,
+   "shared_phone": true,
+   "call_burst": true,
+   "director_interlock": true
+  },
+  "recall": 1.0,
+  "findings_per_detector": {
+   "money_cycles": 1,
+   "pass_through": 1,
+   "structuring": 1,
+   "call_bursts": 1,
+   "shared_identifiers": 2,
+   "director_interlocks": 3
+  }
+ },
+ "evidence": {
+  "claims": 856,
+  "unsupported_claims": 0,
+  "evidence_coverage": 1.0,
+  "edges_with_multiple_documents": 29,
+  "mean_documents_per_multi_edge": 2.172,
+  "mean_independent_origins_per_multi_edge": 1.966,
+  "syndicated_award_edge": [
+   {
+    "documents": 3,
+    "independent_origins": 1,
+    "groups": [
+     "attributed to tender"
+    ]
+   }
+  ],
+  "contradictions": {
+   "temporal": 1,
+   "attribute": 1
+  },
+  "planted_temporal_contradiction_found": true,
+  "planted_amount_conflict_found": true
+ },
+ "calibration": {
+  "claims": 200,
+  "accuracy": 0.99,
+  "ece_raw_score": 0.1204,
+  "ece_calibrated": 0.0767
+ },
+ "robustness": [
+  {
+   "noise": 0.0,
+   "ner_relaxed_f1": 0.9921,
+   "ner_baseline_f1": 0.7901,
+   "relation_f1": 0.9653,
+   "er_pairwise_f1": 0.9964,
+   "er_fuzzy_baseline_f1": 0.8582
+  },
+  {
+   "noise": 0.01,
+   "ner_relaxed_f1": 0.9891,
+   "ner_baseline_f1": 0.7889,
+   "relation_f1": 0.9514,
+   "er_pairwise_f1": 0.9783,
+   "er_fuzzy_baseline_f1": 0.8497
+  },
+  {
+   "noise": 0.03,
+   "ner_relaxed_f1": 0.979,
+   "ner_baseline_f1": 0.7818,
+   "relation_f1": 0.9162,
+   "er_pairwise_f1": 0.9632,
+   "er_fuzzy_baseline_f1": 0.8428
+  },
+  {
+   "noise": 0.06,
+   "ner_relaxed_f1": 0.9666,
+   "ner_baseline_f1": 0.7822,
+   "relation_f1": 0.8688,
+   "er_pairwise_f1": 0.9235,
+   "er_fuzzy_baseline_f1": 0.8308
+  }
+ ],
+ "performance": {
+  "documents": 140,
+  "sequential_cold": {
+   "ms_total": 28637.9,
+   "ms_first_pass": 18785.6,
+   "docs_per_minute": 259.8
+  },
+  "threads_4_cold": {
+   "ms_total": 25964.0,
+   "ms_first_pass": 16418.8,
+   "docs_per_minute": 286.6
+  },
+  "processes_4_cold": {
+   "ms_total": 25478.8,
+   "ms_first_pass": 15781.1,
+   "docs_per_minute": 292.0
+  },
+  "warm_cache_rerun": {
+   "ms_total": 9732.5,
+   "ms_first_pass": 45.9,
+   "docs_per_minute": 764.4,
+   "cached": 124
+  },
+  "assistant_query_latency_ms": {
+   "median": 106.3,
+   "p95": 115.3,
+   "n": 20
+  }
+ }
+}
