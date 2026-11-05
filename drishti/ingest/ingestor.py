@@ -89,7 +89,7 @@ class Ingestor:
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_bytes(data)
             p.chmod(0o444)  # immutable evidence copy
-        return p.as_uri()
+        return p.resolve().as_uri()
 
     def ingest(self, case_id: str, item: RawItem, actor: str = "system") -> IngestResult:
         digest = sha256_bytes(item.data)
